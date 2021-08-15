@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -6,7 +7,7 @@ public class Main {
         //work with instances of the subclass here
         File example1 = new File("example", "png", 5);
 
-        List<File> topLevelContent = new LinkedList<File>();
+        ArrayList<File> topLevelContent = new ArrayList<File>();
 
         topLevelContent.add(example1);
 

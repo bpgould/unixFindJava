@@ -1,11 +1,10 @@
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 
 public class File {
     String name;
     String extension;
     int size;
-    List<File> folder = new LinkedList<>();
+    ArrayList<File> folder;
     /**
      * File constructor, to be used when creating a node that is only a file
      * @param name  - human-readable name of the file
@@ -20,9 +19,9 @@ public class File {
     /**
      * Folder constructor, overloads File constructor
      * @param name - human-readable name of the folder
-     * @param folder - list containing other folder and file nodes
+     * @param folder - arraylist containing other folder and file nodes
      */
-    File(String name, List<File> folder){
+    File(String name, ArrayList<File> folder){
         this.name = name;
         this.folder = folder;
     }
