@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Directory {
     // the following variables will be used to generate example directory trees for testing our find api
@@ -11,6 +12,7 @@ public class Directory {
     File directory;
 
     Directory(int maxFilesPerNode, int treeDepth){
+        //TODO: I may need a random object here with a seed, but it should be apparent after a few tests
         int randomNumberOfNodes = (int)(Math.random()*maxFilesPerNode); //generate a number between 0 and maxFilesPerNode
         int randomNumberOfFolders = (int)(Math.random()*randomNumberOfNodes); //generate a number between 0 and randomNumberOfNodes
         this.directory = buildDirectory(randomNumberOfNodes, randomNumberOfFolders, treeDepth); //generate directory
@@ -27,11 +29,28 @@ public class Directory {
                 }
                 else{
                     //put a random file in the current level
-                    directory.folder.add(new File("file" + "_depth_" + depthCount + "_number_" + i, getRandomExtension, getRandomSize));
+                    directory.folder.add(new File("file" + "_depth_" + depthCount + "_number_" + i, getRandomExtension(), getRandomSize));
                 }
             }
         }
 
+    }
+
+    public String getRandomExtension(){
+        int randomIndex = (int)(Math.random() * ACCEPTABLE_FILE_FORMATS.length);
+        return ACCEPTABLE_FILE_FORMATS[randomIndex];
+    }
+
+    /**
+     * Helper function for generating test trees, provides a random file size when constructing new Files
+     * @return - returns a normally distributed file size, distributed about 5 with a variance of 1
+     */
+    public int getRandomSize(){
+        Random r = new Random();
+        /* default mean is 1 so by adding 4, we shift the new mean of the distribution to 5, SD=Variance=1
+        most values will be between 2 and 8
+        */
+        return (int)Math.round(r.nextGaussian()+4);
     }
 
     /**
