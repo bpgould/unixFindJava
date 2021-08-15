@@ -15,34 +15,40 @@ public class Directory {
         //TODO: I may need a random object here with a seed, but it should be apparent after a few tests
         int randomNumberOfNodes = (int)(Math.random()*maxFilesPerNode); //generate a number between 0 and maxFilesPerNode
         int randomNumberOfFolders = (int)(Math.random()*randomNumberOfNodes); //generate a number between 0 and randomNumberOfNodes
-        this.directory = buildDirectory(randomNumberOfNodes, randomNumberOfFolders, treeDepth); //generate directory
+        File root = new File("root directory", new ArrayList<File>()); //generate root node
+        this.directory = buildDirectory(randomNumberOfNodes, randomNumberOfFolders, treeDepth, root); //generate directory
     }
 
-    public File buildDirectory(int randomNumberOfNodes, int randomNumberOfFolders, int treeDepth){
+    public File buildDirectory(int randomNumberOfNodes, int randomNumberOfFolders, int treeDepth, File root){
         int depthCount = 0;
+
         while(depthCount < treeDepth) {
             //this may be a bit more complicated, let's seek online help here
             for (int i = 0; i < randomNumberOfNodes; i++) {
                 if(randomNumberOfFolders > 0){
                     //put a random folder in the current level
-                    directory.folder.add(new File("folder" + "_depth_" + depthCount + "_number_" + i, buildDirectory(randomNumberOfNodes, randomNumberOfFolders, treeDepth--).folder));
+                    root.folder.add(new File("folder" + "_depth_" + depthCount + "_number_" + i, buildDirectory(randomNumberOfNodes, randomNumberOfFolders, treeDepth--).folder));
                 }
                 else{
                     //put a random file in the current level
-                    directory.folder.add(new File("file" + "_depth_" + depthCount + "_number_" + i, getRandomExtension(), getRandomSize));
+                    root.folder.add(new File("file" + "_depth_" + depthCount + "_number_" + i, getRandomExtension(), getRandomSize()));
                 }
             }
         }
 
     }
 
+    /**
+     * helper function for generating a random file extension when creating new files
+     * @return - returns a string file extension from the array of supported file types
+     */
     public String getRandomExtension(){
         int randomIndex = (int)(Math.random() * ACCEPTABLE_FILE_FORMATS.length);
         return ACCEPTABLE_FILE_FORMATS[randomIndex];
     }
 
     /**
-     * Helper function for generating test trees, provides a random file size when constructing new Files
+     * helper function for generating test trees, provides a random file size when constructing new Files
      * @return - returns a normally distributed file size, distributed about 5 with a variance of 1
      */
     public int getRandomSize(){
