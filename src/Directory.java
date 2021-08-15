@@ -7,17 +7,32 @@ public class Directory {
     /* we want static final to ensure that these extension options are immutable across directory instances and to save memory
     by reusing the same reference
     */
-    final static String[] acceptableFileFormats = {"png", "jpg", "xml", "txt"};
+    final static String[] ACCEPTABLE_FILE_FORMATS = { "png", "jpg", "xml", "txt" };
     File directory;
 
     Directory(int maxFilesPerNode, int treeDepth){
-        int randomNumberOfNodes = (int)(Math.random()*maxFilesPerNode);
-        //this may be a bit more complicated, let's seek online help here
-        for(int i = 0; i < randomNumberOfNodes; i++){
-            
-        }
+        int randomNumberOfNodes = (int)(Math.random()*maxFilesPerNode); //generate a number between 0 and maxFilesPerNode
+        int randomNumberOfFolders = (int)(Math.random()*randomNumberOfNodes); //generate a number between 0 and randomNumberOfNodes
+        this.directory = buildDirectory(randomNumberOfNodes, randomNumberOfFolders, treeDepth); //generate directory
     }
 
+    public File buildDirectory(int randomNumberOfNodes, int randomNumberOfFolders, int treeDepth){
+        int depthCount = 0;
+        while(depthCount < treeDepth) {
+            //this may be a bit more complicated, let's seek online help here
+            for (int i = 0; i < randomNumberOfNodes; i++) {
+                if(randomNumberOfFolders > 0){
+                    //put a random folder in the current level
+                    directory.folder.add(new File("folder" + "_depth_" + depthCount + "_number_" + i, buildDirectory(randomNumberOfNodes, randomNumberOfFolders, treeDepth--).folder));
+                }
+                else{
+                    //put a random file in the current level
+                    directory.folder.add(new File("file" + "_depth_" + depthCount + "_number_" + i, getRandomExtension, getRandomSize));
+                }
+            }
+        }
+
+    }
 
     /**
      * @param root - pass the top node of the directory to do the DFS beneath, I have chosen post order
