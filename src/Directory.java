@@ -51,43 +51,24 @@ public class Directory {
 
     /**
      * helper function for generating a random file extension when creating new files
+     * static because we may want to use this function without an object instance
      * @return - returns a string file extension from the array of supported file types
      */
-    public String getRandomExtension(){
+    public static String getRandomExtension(){
         int randomIndex = (int)(Math.random() * ACCEPTABLE_FILE_FORMATS.length);
         return ACCEPTABLE_FILE_FORMATS[randomIndex];
     }
 
     /**
      * helper function for generating test trees, provides a random file size when constructing new Files
+     * static because we may want to use this function without an object instance
      * @return - returns a normally distributed file size, distributed about 5 with a variance of 1
      */
-    public int getRandomSize(){
+    public static int getRandomSize(){
         Random r = new Random();
         /* default mean is 1 so by adding 4, we shift the new mean of the distribution to 5, SD=Variance=1
-        most values will be between 2 and 8
+        most values will be between 2 and 8 (+3 SD, -3 SD)
         */
         return (int)Math.round(r.nextGaussian()+4);
-    }
-
-    /**
-     * @param root - pass the top node of the directory to do the DFS beneath, I have chosen post order
-     * @param extensionType - file extension type that you are searching for
-     * @param maxSize - maximum allowed size of the file
-     * @return returns an arraylist of Files that can be printed to the user with after overriding toString
-     */
-    public ArrayList<File> postOrderSearch(File root, String extensionType, int maxSize) {
-        ArrayList<File> matchingFiles = new ArrayList<>();
-        if(root == null){
-            return matchingFiles;
-        }
-        for(File f : root.folder){
-            postOrderSearch(f, extensionType, maxSize);
-        }
-        //only add files to our list if they match the search criteria
-        if(root.extension.equals(extensionType) && root.size < maxSize) {
-            matchingFiles.add(root);
-        }
-        return matchingFiles;
     }
 }
