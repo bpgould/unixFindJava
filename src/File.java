@@ -58,7 +58,7 @@ public class File {
      * @return returns an arraylist of Files that can be printed to the user with after overriding toString
      * TODO: I would like to refactor this to the Directory class in order to parameterize and optimize search given a known directory structure
      */
-    public static ArrayList<File> postOrderSearch(File root, String extensionType, int maxSize) {
+    public ArrayList<File> postOrderSearch(File root, String extensionType, int maxSize) {
         ArrayList<File> matchingFiles = new ArrayList<>();
         //base case here is wrong, I need to return after successfully traversing folder contents at each level/depth
         if(root == null){
