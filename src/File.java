@@ -9,6 +9,11 @@ public class File {
     final static String[] ACCEPTABLE_FILE_FORMATS = { "png", "jpg", "xml", "txt" };
 
     /**
+     * empty constructor
+     */
+    File(){}
+
+    /**
      * File constructor, to be used when creating a node that is only a file
      * @param name  - human-readable name of the file
      * @param extension - file extension type such as .jpg, .xml, etc.
@@ -53,8 +58,9 @@ public class File {
      * @return returns an arraylist of Files that can be printed to the user with after overriding toString
      * TODO: I would like to refactor this to the Directory class in order to parameterize and optimize search given a known directory structure
      */
-    public ArrayList<File> postOrderSearch(File root, String extensionType, int maxSize) {
+    public static ArrayList<File> postOrderSearch(File root, String extensionType, int maxSize) {
         ArrayList<File> matchingFiles = new ArrayList<>();
+        //base case here is wrong, I need to return after successfully traversing folder contents at each level/depth
         if(root == null){
             return matchingFiles;
         }
