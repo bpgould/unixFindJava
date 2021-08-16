@@ -11,31 +11,42 @@ public class Directory {
     final static String[] ACCEPTABLE_FILE_FORMATS = { "png", "jpg", "xml", "txt" };
     File directory;
 
+    /**
+     * Directory object constructor, supposed to make it easier for testing by requiring only 2 dimensions for input and generating a
+     * working directory example to test with
+     * @param maxFilesPerNode - max tree width, a binary tree would be 2
+     * @param treeDepth - max tree depth
+     */
     Directory(int maxFilesPerNode, int treeDepth){
         //TODO: I may need a random object here with a seed, but it should be apparent after a few tests
         int randomNumberOfNodes = (int)(Math.random()*maxFilesPerNode); //generate a number between 0 and maxFilesPerNode
         int randomNumberOfFolders = (int)(Math.random()*randomNumberOfNodes); //generate a number between 0 and randomNumberOfNodes
-        File root = new File("root directory", new ArrayList<File>()); //generate root node
+        File root = new File("root directory", new ArrayList<>()); //generate root node
         this.directory = buildDirectory(randomNumberOfNodes, randomNumberOfFolders, treeDepth, root); //generate directory
     }
 
+    /**
+     * builds a pseudo random n-ary tree for testing given some user input dimensions
+     * @param randomNumberOfNodes - the maximum number of nodes per level
+     * @param randomNumberOfFolders - the maximum number of folders per level, guaranteed to be <= randomNumberOfNodes
+     * @param treeDepth - the maximum depth of the tree
+     * @param root - the top level folder that the directory will be built under
+     * @return - returns the build directory that should be an n-ary tree with, likely with files and folders
+     */
     public File buildDirectory(int randomNumberOfNodes, int randomNumberOfFolders, int treeDepth, File root){
-        int depthCount = 0;
-
-        while(depthCount < treeDepth) {
-            //this may be a bit more complicated, let's seek online help here
+        while(treeDepth > 0) {
             for (int i = 0; i < randomNumberOfNodes; i++) {
                 if(randomNumberOfFolders > 0){
                     //put a random folder in the current level
-                    root.folder.add(new File("folder" + "_depth_" + depthCount + "_number_" + i, buildDirectory(randomNumberOfNodes, randomNumberOfFolders, treeDepth--).folder));
+                    root.folder.add(new File("folder" + "_depth_" + treeDepth + "_number_" + i, buildDirectory(randomNumberOfNodes, randomNumberOfFolders, treeDepth--, root).folder));
                 }
                 else{
                     //put a random file in the current level
-                    root.folder.add(new File("file" + "_depth_" + depthCount + "_number_" + i, getRandomExtension(), getRandomSize()));
+                    root.folder.add(new File("file" + "_depth_" + treeDepth + "_number_" + i, getRandomExtension(), getRandomSize()));
                 }
             }
         }
-
+        return root;
     }
 
     /**
