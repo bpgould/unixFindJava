@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+//TODO: restructure inheritance to inherit helper functions from File such as getRandomSize() and getRandomExtension()
 public class Directory {
     // the following variables will be used to generate example directory trees for testing our find api
     int maxFilesPerNode;
@@ -10,6 +11,11 @@ public class Directory {
     */
     final static String[] ACCEPTABLE_FILE_FORMATS = { "png", "jpg", "xml", "txt" };
     File directory;
+
+    /**
+     * empty constructor
+     */
+    Directory(){}
 
     /**
      * Directory object constructor, supposed to make it easier for testing by requiring only 2 dimensions for input and generating a
@@ -32,6 +38,7 @@ public class Directory {
      * @param treeDepth - the maximum depth of the tree
      * @param root - the top level folder that the directory will be built under
      * @return - returns the build directory that should be an n-ary tree with, likely with files and folders
+     * TODO: this has not been tested, but presents a non-trivial problem on its own: create pseudo random n-ary trees
      */
     public File buildDirectory(int randomNumberOfNodes, int randomNumberOfFolders, int treeDepth, File root){
         while(treeDepth > 0) {
